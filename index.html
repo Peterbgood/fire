@@ -9,7 +9,7 @@
   <!-- Custom CSS -->
   <style>
     body {
-      background: linear-gradient(180deg, #f8f9fa, #e9ecef);
+      background: #ffffff;
       color: #212529;
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
@@ -46,6 +46,11 @@
       border-color: #dc3545;
       color: #fff;
     }
+    .btn-fuel:hover, .btn-fuel:active, .btn-fuel:focus {
+      background-color: #dc3545 !important;
+      border-color: #dc3545 !important;
+      color: #fff !important;
+    }
     .btn-water {
       background-color: #90e0ef;
       border-color: #90e0ef;
@@ -60,20 +65,10 @@
       max-height: 30vh;
       overflow-y: auto;
     }
-    .history-table {
-      border-collapse: separate;
-      border-spacing: 0 10px;
-    }
-    .history-table th, .history-table td {
-      color: #212529;
-      font-size: 0.9rem;
-      vertical-align: middle;
-      border: none;
-    }
     .thought-card {
-      background-color: #e9ecef;
-      border-radius: 8px;
-      margin-bottom: 10px;
+      background-color: #f8f9fa;
+      border-radius: 15px;
+      margin-bottom: 12px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     .thought-card.fuel-row {
@@ -82,22 +77,16 @@
     .thought-card.water-row {
       border: 3px solid #90e0ef;
     }
-    .thought-card .thought-cell {
+    .thought-card .card-body {
       padding: 15px;
     }
+    .thought-card .card-text {
+      text-align: center;
+    }
     .thought-card .action-btn {
-      font-size: 0.8rem;
-      padding: 4px 8px;
-      margin: 5px 2px 0 2px;
-    }
-    .nav-tabs .nav-link {
-      color: #212529;
-      font-size: 1rem;
-    }
-    .nav-tabs .nav-link.active {
-      background-color: #dc3545;
-      color: #fff;
-      border-color: #dc3545;
+      font-size: 0.9rem;
+      padding: 6px 12px;
+      margin: 5px 4px 0 4px;
     }
     @media (max-width: 576px) {
       .input-section .btn {
@@ -107,15 +96,16 @@
       .thought-input {
         font-size: 0.9rem;
       }
-      .thought-card .action-btn {
-        font-size: 0.7rem;
-        padding: 3px 6px;
-      }
       .thought-card {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
       }
-      .history-table {
-        border-spacing: 0 8px;
+      .thought-card .action-btn {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+        width: 100px;
+      }
+      .thought-card .action-btn-container {
+        text-align: center;
       }
     }
   </style>
@@ -134,24 +124,8 @@
       <button class="btn btn-fuel" onclick="addThought('fuel')">Add Fuel</button>
       <button class="btn btn-water" onclick="addThought('water')">Add Water</button>
     </div>
-    <!-- Tabs for History -->
-    <ul class="nav nav-tabs mt-3" id="appTabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="true">History</button>
-      </li>
-    </ul>
-    <div class="tab-content" id="appTabsContent">
-      <div class="tab-pane fade show active history-section" id="history" role="tabpanel" aria-labelledby="history-tab">
-        <table class="table history-table">
-          <thead>
-            <tr>
-              <th scope="col">Thought</th>
-            </tr>
-          </thead>
-          <tbody id="historyTableBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <!-- History Section -->
+    <div class="history-section" id="historySection"></div>
   </div>
 
   <!-- Edit Thought Modal -->
@@ -268,23 +242,23 @@
       bootstrap.Modal.getInstance(document.getElementById('editThoughtModal')).hide();
     }
 
-    // Update history table
+    // Update history section
     function updateHistory() {
-      const tbody = document.getElementById('historyTableBody');
-      tbody.innerHTML = '';
+      const historySection = document.getElementById('historySection');
+      historySection.innerHTML = '';
       thoughts.forEach((thought, index) => {
-        const row = document.createElement('tr');
-        row.className = `thought-card ${thought.type}-row`;
-        row.innerHTML = `
-          <td class="thought-cell">
-            ${thought.text}
-            <div>
+        const card = document.createElement('div');
+        card.className = `card thought-card ${thought.type}-row`;
+        card.innerHTML = `
+          <div class="card-body">
+            <p class="card-text">${thought.text}</p>
+            <div class="action-btn-container">
               <button class="btn btn-sm btn-outline-primary action-btn" onclick="editThought(${index})">Edit</button>
               <button class="btn btn-sm btn-outline-danger action-btn" onclick="deleteThought(${index})">Delete</button>
             </div>
-          </td>
+          </div>
         `;
-        tbody.appendChild(row);
+        historySection.appendChild(card);
       });
     }
 
