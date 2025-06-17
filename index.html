@@ -47,9 +47,9 @@
       color: #fff;
     }
     .btn-water {
-      background-color: #20c997;
-      border-color: #20c997;
-      color: #fff;
+      background-color: #90e0ef;
+      border-color: #90e0ef;
+      color: #212529;
     }
     .thought-input {
       margin-bottom: 15px;
@@ -60,21 +60,35 @@
       max-height: 30vh;
       overflow-y: auto;
     }
+    .history-table {
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
     .history-table th, .history-table td {
       color: #212529;
       font-size: 0.9rem;
       vertical-align: middle;
+      border: none;
     }
-    .history-table .fuel-row {
-      background-color: rgba(220, 53, 69, 0.1);
+    .thought-card {
+      background-color: #e9ecef;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    .history-table .water-row {
-      background-color: rgba(32, 201, 151, 0.1);
+    .thought-card.fuel-row {
+      border: 3px solid #f4a261;
     }
-    .history-table .action-btn {
+    .thought-card.water-row {
+      border: 3px solid #90e0ef;
+    }
+    .thought-card .thought-cell {
+      padding: 15px;
+    }
+    .thought-card .action-btn {
       font-size: 0.8rem;
       padding: 4px 8px;
-      margin: 0 2px;
+      margin: 5px 2px 0 2px;
     }
     .nav-tabs .nav-link {
       color: #212529;
@@ -93,9 +107,15 @@
       .thought-input {
         font-size: 0.9rem;
       }
-      .history-table .action-btn {
+      .thought-card .action-btn {
         font-size: 0.7rem;
         padding: 3px 6px;
+      }
+      .thought-card {
+        margin-bottom: 8px;
+      }
+      .history-table {
+        border-spacing: 0 8px;
       }
     }
   </style>
@@ -125,9 +145,7 @@
         <table class="table history-table">
           <thead>
             <tr>
-              <th scope="col">Type</th>
               <th scope="col">Thought</th>
-              <th scope="col" class="text-end">Actions</th>
             </tr>
           </thead>
           <tbody id="historyTableBody"></tbody>
@@ -256,13 +274,14 @@
       tbody.innerHTML = '';
       thoughts.forEach((thought, index) => {
         const row = document.createElement('tr');
-        row.className = thought.type === 'fuel' ? 'fuel-row' : 'water-row';
+        row.className = `thought-card ${thought.type}-row`;
         row.innerHTML = `
-          <td>${thought.type.charAt(0).toUpperCase() + thought.type.slice(1)}</td>
-          <td>${thought.text}</td>
-          <td class="text-end">
-            <button class="btn btn-sm btn-outline-primary action-btn" onclick="editThought(${index})">Edit</button>
-            <button class="btn btn-sm btn-outline-danger action-btn" onclick="deleteThought(${index})">Delete</button>
+          <td class="thought-cell">
+            ${thought.text}
+            <div>
+              <button class="btn btn-sm btn-outline-primary action-btn" onclick="editThought(${index})">Edit</button>
+              <button class="btn btn-sm btn-outline-danger action-btn" onclick="deleteThought(${index})">Delete</button>
+            </div>
           </td>
         `;
         tbody.appendChild(row);
