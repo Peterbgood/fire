@@ -43,6 +43,16 @@
       border-color: #90e0ef;
       color: #212529;
     }
+    .btn-reset {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      color: #fff;
+    }
+    .btn-reset:hover, .btn-reset:active, .btn-reset:focus {
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+      color: #fff !important;
+    }
     .thought-input {
       margin-bottom: 15px;
       border-radius: 10px;
@@ -51,6 +61,10 @@
       padding: 20px;
       max-height: none;
       overflow-y: visible;
+    }
+    .reset-section {
+      padding: 20px;
+      text-align: center;
     }
     .thought-card {
       background-color: #f8f9fa;
@@ -83,6 +97,14 @@
     }
     @media (max-width: 576px) {
       .input-section .btn {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+        width: 100%;
+        max-width: 200px;
+        margin: 5px 0;
+        white-space: nowrap;
+      }
+      .reset-section .btn {
         font-size: 0.75rem;
         padding: 5px 10px;
         width: 100%;
@@ -125,6 +147,10 @@
     </div>
     <!-- History Section -->
     <div class="history-section" id="historySection"></div>
+    <!-- Reset Section -->
+    <div class="reset-section">
+      <button class="btn btn-reset" onclick="resetThoughts()">Reset All Thoughts</button>
+    </div>
   </div>
 
   <!-- Edit Thought Modal -->
@@ -181,6 +207,15 @@
       thoughts.splice(index, 1);
       localStorage.setItem('thoughts', JSON.stringify(thoughts));
       updateHistory();
+    }
+
+    // Reset all thoughts
+    function resetThoughts() {
+      if (confirm('Are you sure you want to delete all thoughts? This cannot be undone.')) {
+        thoughts = [];
+        localStorage.setItem('thoughts', JSON.stringify(thoughts));
+        updateHistory();
+      }
     }
 
     // Open edit modal
