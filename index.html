@@ -83,9 +83,12 @@
     }
     @media (max-width: 576px) {
       .input-section .btn {
-        font-size: 0.9rem;
-        padding: 6px 12px;
-        width: 100px;
+        font-size: 0.75rem;
+        padding: 5px 10px;
+        width: 100%;
+        max-width: 200px;
+        margin: 5px 0;
+        white-space: nowrap;
       }
       .thought-input {
         font-size: 0.9rem;
@@ -101,6 +104,10 @@
       .thought-card .action-btn-container {
         text-align: center;
       }
+      .button-container {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
@@ -112,8 +119,8 @@
         <input type="text" class="form-control thought-input" id="thoughtInput" placeholder="Describe your thought...">
       </div>
       <div class="button-container">
-        <button class="btn btn-fuel" onclick="addThought('fuel')">Escape = Fuel</button>
         <button class="btn btn-water" onclick="addThought('water')">Unpleasant Thought = Water</button>
+        <button class="btn btn-fuel" onclick="addThought('fuel')">Escape = Fuel</button>
       </div>
     </div>
     <!-- History Section -->
